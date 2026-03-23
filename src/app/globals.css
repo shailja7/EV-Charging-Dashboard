@@ -3,25 +3,53 @@
 @tailwind utilities;
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
+  --foreground-rgb: 240, 240, 245;
+  --background-start-rgb: 8, 8, 12;
+  --background-end-rgb: 0, 0, 0;
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+  --primary: 147, 51, 234;
+  --primary-glow: rgba(147, 51, 234, 0.5);
+  --accent: 79, 70, 229;
 }
 
 body {
-  color: var(--foreground);
-  background: var(--background);
-  font-family: Arial, Helvetica, sans-serif;
+  color: rgb(var(--foreground-rgb));
+  background: radial-gradient(circle at 50% -20%, #1a1a2e 0%, #08080c 100%);
+  min-height: 100vh;
+  overflow-x: hidden;
 }
 
 @layer utilities {
-  .text-balance {
-    text-wrap: balance;
+  .glass {
+    @apply bg-[#12121e]/40 backdrop-blur-xl border border-white/10;
+    box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.6);
+  }
+
+  .glass-card {
+    @apply glass rounded-2xl p-6 transition-all duration-500 hover:border-white/20;
+  }
+
+  .glass-card:hover {
+    box-shadow: 0 20px 50px rgba(147, 51, 234, 0.2);
+  }
+
+  .text-glow {
+    text-shadow: 0 0 15px rgba(255, 255, 255, 0.3);
+  }
+
+  .animate-pulse-slow {
+    animation: pulse 4s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+  }
+
+  @keyframes pulse {
+
+    0%,
+    100% {
+      opacity: 1;
+    }
+
+    50% {
+      opacity: 0.7;
+    }
   }
 }

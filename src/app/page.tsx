@@ -1,101 +1,137 @@
-import Image from "next/image";
+"use client";
+
+import React, { useState, useEffect } from "react";
+import { Zap, Sun, Activity, ShieldAlert, Cpu } from "lucide-react";
+import { StatsCard } from "@/components/StatsCard";
+import { PowerChart } from "@/components/PowerChart";
+import { Controls } from "@/components/Controls";
+
+interface PowerSnapshot {
+  time: string;
+  solar: number;
+  grid: number;
+  ev: number;
+}
 
 export default function Home() {
-  return (
-    <div className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">
-      <main className="flex flex-col gap-8 row-start-2 items-center sm:items-start">
-        <Image
-          className="dark:invert"
-          src="https://nextjs.org/icons/next.svg"
-          alt="Next.js logo"
-          width={180}
-          height={38}
-          priority
-        />
-        <ol className="list-inside list-decimal text-sm text-center sm:text-left font-[family-name:var(--font-geist-mono)]">
-          <li className="mb-2">
-            Get started by editing{" "}
-            <code className="bg-black/[.05] dark:bg-white/[.06] px-1 py-0.5 rounded font-semibold">
-              src/app/page.tsx
-            </code>
-            .
-          </li>
-          <li>Save and see your changes instantly.</li>
-        </ol>
+  const [data, setData] = useState<PowerSnapshot[]>([]);
+  const [stats, setStats] = useState({
+    solar: 5.2,
+    grid: 4.5,
+    ev: 3.2,
+    efficiency: 94,
+  });
 
-        <div className="flex gap-4 items-center flex-col sm:flex-row">
-          <a
-            className="rounded-full border border-solid border-transparent transition-colors flex items-center justify-center bg-foreground text-background gap-2 hover:bg-[#383838] dark:hover:bg-[#ccc] text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="https://nextjs.org/icons/vercel.svg"
-              alt="Vercel logomark"
-              width={20}
-              height={20}
-            />
-            Deploy now
-          </a>
-          <a
-            className="rounded-full border border-solid border-black/[.08] dark:border-white/[.145] transition-colors flex items-center justify-center hover:bg-[#f2f2f2] dark:hover:bg-[#1a1a1a] hover:border-transparent text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 sm:min-w-44"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Read our docs
-          </a>
+  // Simulate real-time data
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setData((prev) => {
+        const newTime = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', second: '2-digit' });
+        const lastEntry = prev[prev.length - 1] || { solar: 5.2, grid: 4.5, ev: 3.2 };
+
+        // Dynamic Load Management Simulation
+        const solarChange = (Math.random() - 0.5) * 0.4;
+        const newSolar = Math.max(0, lastEntry.solar + solarChange);
+
+        // IF solar is high, grid goes down for EV
+        const newEv = 3.2 + (Math.random() - 0.5) * 0.1;
+        const newGrid = Math.max(0.5, 9.7 - newSolar); // Simplified DLM logic
+
+        const newData = [...prev.slice(-19), {
+          time: newTime,
+          solar: parseFloat(newSolar.toFixed(2)),
+          grid: parseFloat(newGrid.toFixed(1)),
+          ev: parseFloat(newEv.toFixed(1)),
+        }];
+
+        setStats({
+          solar: parseFloat(newSolar.toFixed(2)),
+          grid: parseFloat(newGrid.toFixed(1)),
+          ev: parseFloat(newEv.toFixed(1)),
+          efficiency: 92 + Math.floor(Math.random() * 6),
+        });
+
+        return newData;
+      });
+    }, 2000);
+
+    return () => clearInterval(interval);
+  }, []);
+
+  return (
+    <main className="min-h-screen p-8 max-w-7xl mx-auto space-y-8">
+      {/* Header */}
+      <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
+        <div>
+          <h1 className="text-4xl font-black text-white tracking-tighter flex items-center gap-3">
+            <Cpu className="text-purple-500" size={32} />
+            Smart EV <span className="text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-indigo-500">Charging Station</span>
+          </h1>
+          <p className="text-gray-400 mt-2 font-medium">B.Tech Final Year Project • IoT Energy Management System</p>
         </div>
-      </main>
-      <footer className="row-start-3 flex gap-6 flex-wrap items-center justify-center">
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="https://nextjs.org/icons/file.svg"
-            alt="File icon"
-            width={16}
-            height={16}
-          />
-          Learn
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="https://nextjs.org/icons/window.svg"
-            alt="Window icon"
-            width={16}
-            height={16}
-          />
-          Examples
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="https://nextjs.org/icons/globe.svg"
-            alt="Globe icon"
-            width={16}
-            height={16}
-          />
-          Go to nextjs.org →
-        </a>
-      </footer>
-    </div>
+
+        <div className="glass px-4 py-2 rounded-full border-white/5 flex items-center gap-6">
+          <div className="flex items-center gap-2">
+            <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
+            <span className="text-xs font-bold text-gray-400 uppercase tracking-widest">ESP32: Connected</span>
+          </div>
+          <div className="h-4 w-px bg-white/10" />
+          <div className="flex items-center gap-2">
+            <Activity className="text-indigo-400" size={14} />
+            <span className="text-xs font-bold text-gray-400 uppercase tracking-widest">Lat: 42ms</span>
+          </div>
+        </div>
+      </div>
+
+      {/* Quick Stats Grid */}
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+        <StatsCard
+          title="Solar Generation"
+          value={stats.solar.toString()}
+          unit="kW"
+          icon={Sun}
+          trend="+12% vs last hour"
+          color="success"
+        />
+        <StatsCard
+          title="Utility Grid Draw"
+          value={stats.grid.toString()}
+          unit="kW"
+          icon={Activity}
+          trend="-5% Peak Saving"
+          color="primary"
+        />
+        <StatsCard
+          title="EV Charging Load"
+          value={stats.ev.toString()}
+          unit="kW"
+          icon={Zap}
+          color="accent"
+        />
+        <StatsCard
+          title="System Efficiency"
+          value={stats.efficiency.toString()}
+          unit="%"
+          icon={ShieldAlert}
+          color="warning"
+        />
+      </div>
+
+      {/* Main Content Areas */}
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+        <div className="lg:col-span-2">
+          <PowerChart data={data} />
+        </div>
+        <div className="lg:col-span-1">
+          <Controls />
+        </div>
+      </div>
+
+      {/* Footer Branding */}
+      <div className="pt-8 border-t border-white/5 flex items-center justify-between text-gray-500">
+        <p className="text-xs font-semibold">Node-RED Backend Interface • MQTT Protocol v3.1</p>
+        <p className="text-xs font-semibold">Group 1 • final-year-project-2026</p>
+      </div>
+    </main>
   );
 }
