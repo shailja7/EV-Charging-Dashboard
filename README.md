@@ -4,7 +4,7 @@
 A professional IoT dashboard for real-time monitoring and energy management of a grid-aware EV charging station. This project features autonomous load balancing and solar-priority logic, designed specifically for a B.Tech final year project.
 
 ## Live Demo
-Check out the live dashboard: [https://smart-ev-dashboard.vercel.app](https://smart-ev-dashboard.vercel.app/)
+Check out the live dashboard: [https://smart-ev-dashboard.vercel.app/](https://smart-ev-dashboard.vercel.app/)
 
 ## Core Features
 *   **Dynamic Load Management (DLM)**: Real-time firmware algorithm on ESP32 to throttle charging current during household power spikes.
