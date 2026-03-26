@@ -1,36 +1,30 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
 
-## Getting Started
+# Smart EV Charging Station with Dynamic Load Management
 
-First, run the development server:
+A professional IoT dashboard for real-time monitoring and energy management of a grid-aware EV charging station. This project features autonomous load balancing and solar-priority logic, designed specifically for a B.Tech final year project.
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+## Live Demo
+Check out the live dashboard: [https://smart-ev-dashboard.vercel.app](https://smart-ev-dashboard.vercel.app)
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## Core Features
+*   **Dynamic Load Management (DLM)**: Real-time firmware algorithm on ESP32 to throttle charging current during household power spikes.
+*   **Solar-Priority Logic**: Prioritizes locally generated PV power over grid utility using SCT-013 and PZEM sensors.
+*   **Multi-User Authentication**: Integrated RFID-based security for authorized charging sessions.
+*   **IoT Analytics Dashboard**: Responsive Next.js interface for remote energy tracking and system control.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Technical Stack
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+### Hardware & Firmware
+*   ESP32 Microcontroller (C++, Arduino Framework)
+*   SCT-013 & PZEM-004T Power Sensors
+*   RC522 RFID Module
+*   MQTT Communication Protocol
 
-## Learn More
+### Software & Frontend
+*   Next.js 14 (App Router)
+*   Tailwind CSS (Glassmorphism UI)
+*   Framer Motion (Animations)
+*   Recharts (Data Visualization)
+*   Node-RED (Backend Bridge)
 
-To learn more about Next.js, take a look at the following resources:
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
