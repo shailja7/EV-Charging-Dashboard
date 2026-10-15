@@ -15,6 +15,7 @@ interface StatsCardProps {
     unit: string;
     icon: LucideIcon;
     trend?: string;
+    subDetails?: string;
     color?: "primary" | "accent" | "success" | "warning";
     className?: string;
 }
@@ -32,6 +33,7 @@ export const StatsCard = ({
     unit,
     icon: Icon,
     trend,
+    subDetails,
     color = "primary",
     className,
 }: StatsCardProps) => {
@@ -46,6 +48,11 @@ export const StatsCard = ({
                         </h3>
                         <span className="text-sm font-semibold text-gray-500">{unit}</span>
                     </div>
+                    {subDetails && (
+                        <p className="mt-1.5 text-xs font-mono font-medium text-gray-400 bg-white/5 px-2 py-0.5 rounded w-fit">
+                            {subDetails}
+                        </p>
+                    )}
                     {trend && (
                         <p className="mt-2 text-xs font-medium text-emerald-400 flex items-center gap-1">
                             <span>↑</span> {trend}
